@@ -21,7 +21,7 @@ jobs:
           node-version: 16.x
           cache: yarn
 
-          
+
       - name: 🏗 Setup Expo and EAS
         uses: expo/expo-github-action@v7
         with:
@@ -32,6 +32,9 @@ jobs:
       - name: 📦 Install dependencies
         run: yarn install
 
+      - name: Change folder
+        run: cd tldrnewspaperapp
+        
       - name: ✨ Publish app to Expo
         run: expo publish --non-interactive
 
