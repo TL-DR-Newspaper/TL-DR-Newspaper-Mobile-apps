@@ -12,6 +12,9 @@ jobs:
       - name: 🏗 Setup repo
         uses: actions/checkout@v2
 
+      - name: bump version
+        run: python3 .github/bumpversion.py
+
       - name: 🏗 Setup Node
         uses: actions/setup-node@v2
         with:
