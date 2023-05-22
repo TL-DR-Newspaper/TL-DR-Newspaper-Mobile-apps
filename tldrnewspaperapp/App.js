@@ -57,8 +57,8 @@ const App = () => {
           </Text>
           <DataTable>
             <DataTable.Header>
-              <DataTable.Title>Source</DataTable.Title>
-              <DataTable.Title >Title</DataTable.Title>
+              <DataTable.Title>Title</DataTable.Title>
+              <DataTable.Title >Source</DataTable.Title>
             </DataTable.Header>
 
           {item.sources.map((item, key) => (

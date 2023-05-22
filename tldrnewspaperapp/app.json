@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "tldrnewspaperapp",
+    "name": "TL:DR newspaper",
     "slug": "tldrnewspaperapp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,16 +15,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.petervandoorn.tldrnewspaperapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.petervandoorn.tldrnewspaperapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "00ef250a-cc22-4d23-a1ea-fd0c0e4e2f1b"
+      }
     }
   }
 }
