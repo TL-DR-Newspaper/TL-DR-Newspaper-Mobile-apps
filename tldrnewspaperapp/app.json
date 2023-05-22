@@ -16,7 +16,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.petervandoorn.tldrnewspaperapp"
+      "bundleIdentifier": "com.petervandoorn.tldrnewspaperapp",
+      "buildnumber": "2"
     },
     "android": {
       "adaptiveIcon": {
