@@ -1,7 +1,7 @@
 // import React in our code
 import React, { useState, useEffect } from 'react';
 // import all the components we are going to use
-import { SafeAreaView, Text, ActivityIndicator,  Image, StyleSheet, View, Linking, ScrollView } from 'react-native';
+import { SafeAreaView, Text,RefreshControl, ActivityIndicator,  Image, StyleSheet, View, Linking, ScrollView } from 'react-native';
 import { List, DataTable } from 'react-native-paper';
 
 
@@ -26,6 +26,21 @@ const App = () => {
         console.error(error);
       });
   }, []);
+
+   const onRefresh = React.useCallback(async () => {
+    setLoading(true);
+    fetch('https://tldrnewspaper.com/article/mobileapi/json')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log('Data refreshed');
+        setDataSource(responseJson);
+        setTimeout(() => {setLoading(false)}, 2000);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [loading]);
+
 
   //Render ieach article into this component
   const ItemView = (item, key) => {
@@ -93,11 +108,6 @@ const App = () => {
     );
   };
 
-  // The view to render for each article
-  const getItem = (item) => {
-    // Function for click on an item
-    alert('Id : ' + item.id + ' Title : ' + item.title);
-  };
 
   return loading ? (
     <View style={{flex: 1, justifyContent: 'center'}}>
@@ -110,8 +120,9 @@ const App = () => {
       <View style={styles.container}>
         {/* List Item as a function */}
         
-        <ScrollView>
-        <Text style={styles.apptitle}>Latest news:</Text>
+        <ScrollView
+        refreshControl={<RefreshControl refreshing={loading} onRefresh={onRefresh} />}>
+        <Text style={styles.apptitle}>Headlines:</Text>
           {
             //render all articles
             dataSource.map(ItemView)
@@ -138,10 +149,12 @@ const styles = StyleSheet.create({
   apptitle: {
     padding: 10,
     fontSize: 32,
+    fontWeight: 'bold',
   },
   titlestyle: {
     padding: 10,
     fontSize: 24,
+    fontWeight: 'bold',
   },
   subtitlestyle: {
     padding: 10,
