@@ -1,3 +1,4 @@
+#Bumping the version of our build by one on each CI run
 import json
 f = open('tldrnewspaperapp/app.json')
 
