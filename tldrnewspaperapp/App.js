@@ -58,6 +58,7 @@ const App = () => {
         <List.Accordion
           theme={{colors: {background: 'white'}}}
           title="TL:DR - AI Summary"
+          style={styles.articleheading}
           expanded={expanded}
           onPress={handlePress}>
           <Text style={styles.bodystyle} >
@@ -110,19 +111,28 @@ const App = () => {
 
 
   return loading ? (
-    <View style={{flex: 1, justifyContent: 'center'}}>
-      <Image style={styles.logo} source={require('./assets/logo.png')} /> 
-      <ActivityIndicator size="large" />
-    </View>
-    ) : (
+    <SafeAreaView>
+      <View style={styles.header}>
+        <Text style={styles.apptitle}>Headlines</Text>
+        <Image style={styles.logo} source={require('./assets/logo.png')} />  
+      </View>
+      <View style={styles.container}>
+        <Text style={styles.subtitlestyle}>The news in TL:DR format, written by AI </Text>
+        <ActivityIndicator style={{paddingVertical:'50%'}} size="large" />
+      </View>
+    </SafeAreaView> ) : (
     <SafeAreaView style={{ flex: 1 }}>
-      <Image style={styles.logo} source={require('./assets/logo.png')} />  
+      <View style={styles.header}>
+        <Text style={styles.apptitle}>Headlines</Text>
+        <Image style={styles.logo} source={require('./assets/logo.png')} />  
+      </View>
+      {ItemSeparatorView}
       <View style={styles.container}>
         {/* List Item as a function */}
         
         <ScrollView
         refreshControl={<RefreshControl refreshing={loading} onRefresh={onRefresh} />}>
-        <Text style={styles.apptitle}>Headlines:</Text>
+        <Text style={styles.subtitlestyle}>The news in TL:DR format, written by AI </Text>
           {
             //render all articles
             dataSource.map(ItemView)
@@ -138,17 +148,31 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   logo: {
-    alignSelf: 'center',
     width: '20%',
     resizeMode: 'contain',
     height: 50,
     marginHorizontal: 0,
     margin: 5,
+    overflow: 'hidden',
+    alignSelf: 'flex-start',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start'
     
   },
+  articleheading: {
+    color: '#000',
+    fontWeight: 'bold',
+  },
+  headertext: {
+    fontWeight: 'cursive',
+  },
   apptitle: {
+    alignSelf: 'center',
     padding: 10,
-    fontSize: 32,
+    fontSize: 48,
     fontWeight: 'bold',
   },
   titlestyle: {
@@ -159,6 +183,7 @@ const styles = StyleSheet.create({
   subtitlestyle: {
     padding: 10,
     fontSize: 18,
+    fontWeight: 'bold',
   },
   bodystyle: {
     padding: 10,
