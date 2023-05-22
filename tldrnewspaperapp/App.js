@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   apptitle: {
     alignSelf: 'center',
     padding: 10,
-    fontSize: 48,
+    fontSize: 42,
     fontWeight: 'bold',
   },
   titlestyle: {
