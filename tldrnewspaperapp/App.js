@@ -3,12 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, Text,RefreshControl, ActivityIndicator,  Image, StyleSheet, View, Linking, ScrollView, ImageBackground } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import FlipCard from 'react-native-flip-card'
+import Header from './components/header';
 
 const App = () => {
   const [dataSource, setDataSource] = useState([]);
   const [dataRecent, setDataRecent] = useState([]);
   const [frontpageSource, setfrontpageSource] = useState([]);
-  const [weatherSource, setWeatherSource] = useState([]);
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -140,21 +140,7 @@ const App = () => {
       <ScrollView
         refreshControl={<RefreshControl refreshing={loading} onRefresh={onRefresh} />}>
         <View style={{height:40}}></View>
-        <View style={{height:100, flexDirection:'row', paddingHorizontal:10}}>
-        <ImageBackground style={{flex:1, margin:4 }}resizeMode="cover" imageStyle={{ borderRadius: 10}} source={require('./assets/logo.png')}>
-        </ImageBackground>
-        <View style={{flex:2 , borderColor: 'lightgrey', borderWidth: 0, backgroundColor: 'white', margin:4, borderRadius:10, alignItems:'center', justifyContent:'center'}}>
-        <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
-        <Image
-            style={{width: 50, height: 50}}
-            source={{uri: 'https://openweathermap.org/img/wn/02d@2x.png'}}
-          />
-          <Text style={{fontWeight:'bold', fontSize:24}}>18 C°</Text>
-        </View>
-          <Text>Partly overcast</Text>
-          <Text>Windspeed: 3 Bft</Text>
-        </View>
-      </View>
+        <Header />
       <Text style={styles.apptitle}>Front page</Text>
 
 
