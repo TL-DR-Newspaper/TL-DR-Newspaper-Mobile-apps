@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, Text,RefreshControl, ActivityIndicator,  Image, StyleSheet, View, Linking, ScrollView, ImageBackground } from 'react-native';
+import {Text, ActivityIndicator,  Image, View, ImageBackground } from 'react-native';
+import FlipCard from 'react-native-flip-card'
 
 const Header = () => {
     const [loading, setLoading] = useState(true)
@@ -34,10 +35,28 @@ const Header = () => {
         <Text>Loading weather</Text>
     </View>
 </View>
-         ) : (<View style={{height:100, flexDirection:'row', paddingHorizontal:10}}>
-    <ImageBackground style={{flex:1, margin:4 }}resizeMode="cover" imageStyle={{ borderRadius: 10}} source={require('../assets/logo.png')}>
-    </ImageBackground>
-    <View style={{flex:2 , borderColor: 'lightgrey', borderWidth: 0, backgroundColor: 'white', margin:4, borderRadius:10, alignItems:'center', justifyContent:'center'}}>
+    ) : (
+        
+    
+    
+    <View style={{height:100, flexDirection:'row', paddingHorizontal:10}}>
+    <FlipCard style={{flex:1}}>
+        {/* Face Side */}
+        <ImageBackground style={{flex:1, margin:4 }}resizeMode="cover" imageStyle={{ borderRadius: 10}} source={require('../assets/logo.png')}>
+        </ImageBackground>
+        {/* Back Side */}
+        <View style={{flex:1, margin:4, backgroundColor:'#1A56DB',  borderRadius: 10, textAlignVertical:"center" }}>
+            <Text style={{alignSelf:'center', padding:15, justifyContent:'center', color:'white', textAlignVertical:'center'}}>❤️ Thanks for trying out tl:dr newspaper</Text>
+        </View>
+    </FlipCard>
+    <FlipCard 
+        style={{flex:2}}
+        friction={25}
+        perspective={1000}
+        flipHorizontal={true}
+        flipVertical={true}>
+    {/* Face Side */}
+    <View style={{flex:3 , borderColor: 'lightgrey', borderWidth: 1, backgroundColor: 'white', margin:4, borderRadius:10, alignItems:'center', justifyContent:'center'}}>
         <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
             <Image
                 style={{width: 50, height: 50}}
@@ -45,10 +64,22 @@ const Header = () => {
             />
             <Text style={{fontWeight:'bold', fontSize:24}}>{Math.round(weatherSource.main.temp/10)} C°</Text>
         </View>
-        <Text>{weatherSource.weather[0].description}</Text>
+        <Text style={{fontWeight:'bold'}}>{weatherSource.weather[0].description}</Text>
         <Text>Windspeed: {weatherSource.wind.speed}</Text>
-
     </View>
+    {/* Back Side */}
+    <View style={{flex:3, borderColor: 'lightgrey', borderWidth: 1, backgroundColor: 'white', margin:4, borderRadius:10, alignItems:'center', justifyContent:'center'}}>
+        <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
+            <Image
+                style={{width: 50, height: 50}}
+                source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPOy7J00Z3TvNk1hFIyKY3jWnVCGF1TPnwnA&usqp=CAU'}}
+            />
+            <Text style={{fontWeight:'bold', fontSize:24}}>+2,1 %</Text>
+        </View>
+        <Text style={{fontWeight:'bold'}}>S&P 500</Text>
+        <Text> 4.145,58 points</Text>
+    </View>
+    </FlipCard>
 </View>);
 };
 

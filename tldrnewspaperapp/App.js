@@ -1,27 +1,17 @@
 // import React in our code
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, Text,RefreshControl, ActivityIndicator,  Image, StyleSheet, View, Linking, ScrollView, ImageBackground } from 'react-native';
-import { DataTable } from 'react-native-paper';
-import FlipCard from 'react-native-flip-card'
+import { SafeAreaView, Text,RefreshControl, ActivityIndicator,  Image, StyleSheet, View, ScrollView } from 'react-native';
 import Header from './components/header';
+import Homepage from './components/homepage';
+import Latest from './components/latest';
+import Summaries from './components/summaries';
 
 const App = () => {
-  const [dataSource, setDataSource] = useState([]);
-  const [dataRecent, setDataRecent] = useState([]);
-  const [frontpageSource, setfrontpageSource] = useState([]);
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('https://tldrnewspaper.com/article/mobileapi/sources')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log('Data arrived');
-        setDataSource(responseJson);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    console.log("Loading")
+    setLoading(false)
   }, []);
 
   const onRefresh = React.useCallback(async () => {
@@ -30,98 +20,12 @@ const App = () => {
       .then((response) => response.json())
       .then((responseJson) => {
         console.log('Refresh arrived');
-        setDataSource(responseJson);
         setLoading(false);
       })
       .catch((error) => {
         console.error(error);
       });
   }, [loading]);
-
-
-  //Render ieach article into this component
-  const ItemView = (item, key) => {
-    return (
-      // Flat List Item
-      <View key={key}>
-        <FlipCard>
-          {/* Face Side */}
-          <View>
-          <ImageBackground style={styles.frontpagecard}resizeMode="cover" imageStyle={{ borderRadius: 6}} source={{ uri: `${item.imageurl}` }}>
-            <Text style={styles.headlinecardtext}>{item.title}</Text>
-            <ItemSeparatorView />
-          </ImageBackground>
-          </View >
-          {/* Back Side */}
-          <View style={{flex:1, width:"100%", backgroundColor:"#111827", borderRadius:20}}>
-            <ScrollView>
-            <Text style={styles.apptitledark}>{item.title}</Text>
-            <Text style={styles.datestyle} >
-              {item.pubdate}
-            </Text>
-            <Text style={styles.subtitlestyledark}>Summary</Text>
-            <Text style={styles.bodystyledark}>{item.summary}</Text>
-            <Image style={styles.frontpagecard}resizeMode="cover" imageStyle={{ borderRadius: 6}} source={{ uri: `${item.imageurl}` }}></Image>
-            <Text style={styles.subtitlestyledark}>Source comparison</Text>
-            <Text style={styles.bodystyledark} >{item.comparison}</Text>
-            <DataTable textStyle={{color:'white'}}>
-                <DataTable.Header>
-                  <DataTable.Title textStyle={{color:'white'}}>Source</DataTable.Title>
-                  <DataTable.Title textStyle={{color:'white'}}>Title</DataTable.Title>
-                </DataTable.Header>
-
-                {item.sources.map((item, key) => (
-                // key is the index of the array
-                // item is the single item of the array
-
-                <DataTable.Row key={key} onPress={ ()=>{ Linking.openURL(`${item.url}`)}}>
-                <DataTable.Cell textStyle={{color:'white'}}>{item.sourcename}</DataTable.Cell>
-                <DataTable.Cell textStyle={{color:'white'}}>{item.title}</DataTable.Cell>
-              </DataTable.Row>
-              ))}
-              </DataTable>
-            <Text style={styles.subtitlestyledark}>Read more</Text>
-            <Text style={styles.bodystyledark} >{item.long_content}</Text>
-            </ScrollView>
-          </View>
-        </FlipCard>
-        <ItemSeparatorView />
-      </View>
-    );
-  };
-
-  const CardView = (item, key) => {
-    return (
-      // Flat List Item
-      <View key={key} style={{maxHeight: 1200}}>
-        <FlipCard>
-          {/* Face Side */}
-          <View>
-            <ImageBackground style={styles.headlinecard}resizeMode="cover" imageStyle={{ borderRadius: 6}} source={{ uri: `${item.imageurl}` }}>
-              <Text style={styles.headlinecardtext}>{item.title}</Text>
-            </ImageBackground>
-          </View >
-          {/* Back Side */}
-            <View style={{height:1200, width:300, backgroundColor:"#111827", borderRadius:10}}>
-              <Text style={styles.subtitlestyledark}>TL:DR</Text>
-              <Text style={styles.bodystyledark }>{item.summary}</Text>
-            </View>
-        </FlipCard>
-      </View>
-      
-
-
-
-    );
-  };
-
-  // A component to separate each article
-  const ItemSeparatorView = () => {
-    return (
-      // Flat List Item Separator
-      <View style={styles.itemSeparatorStyle} />
-    );
-  };
 
 
   return loading ? (
@@ -132,79 +36,27 @@ const App = () => {
       </View>
       <Image style={styles.logo} source={require('./assets/logo.png')} /> 
       <Text style={{alignSelf:'center'}}>Loading more news...</Text>
-
     </SafeAreaView> ) : (
       //If we're not loading
     <View style={{ flex: 1 }}>
-      <View style={styles.container}>
-      <ScrollView
-        refreshControl={<RefreshControl refreshing={loading} onRefresh={onRefresh} />}>
-        <View style={{height:40}}></View>
-        <Header />
-      <Text style={styles.apptitle}>Front page</Text>
-
-
-      <FlipCard>
-      {/* Face Side */}
-      <View>
-      <ImageBackground style={styles.frontpagecard}resizeMode="cover" imageStyle={{ borderRadius: 6}} source={{ uri: `${dataSource[0].imageurl}` }}>
-        <Text style={styles.headlinecardtext}>{dataSource[0].title}</Text>
-        <ItemSeparatorView />
-      </ImageBackground>
-      </View >
-      {/* Back Side */}
-      <View style={{flex:1, width:"100%", backgroundColor:"#111827", borderRadius:20}}>
-        <ScrollView>
-        <Text style={styles.apptitledark}>{dataSource[0].title}</Text>
-        <Text style={styles.datestyle} >
-          {dataSource[0].pubdate}
-        </Text>
-        <Text style={styles.subtitlestyledark}>Summary</Text>
-        <Text style={styles.bodystyledark}>{dataSource[0].summary}</Text>
-        <Image style={styles.frontpagecard}resizeMode="cover" imageStyle={{ borderRadius: 6}} source={{ uri: `${dataSource[0].imageurl}` }}></Image>
-        <Text style={styles.subtitlestyledark}>Source comparison</Text>
-        <Text style={styles.bodystyledark} >{dataSource[0].comparison}</Text>
-        <DataTable textStyle={{color:'white'}}>
-            <DataTable.Header>
-              <DataTable.Title textStyle={{color:'white'}}>Source</DataTable.Title>
-              <DataTable.Title textStyle={{color:'white'}}>Title</DataTable.Title>
-            </DataTable.Header>
-            {dataSource[0].sources.map((item, key) => (
-            // key is the index of the array
-            // item is the single item of the array
-            <DataTable.Row key={key} onPress={ ()=>{ Linking.openURL(`${item.url}`)}}>
-              <DataTable.Cell textStyle={{color:'white'}}>{item.sourcename}</DataTable.Cell>
-              <DataTable.Cell textStyle={{color:'white'}}>{item.title}</DataTable.Cell>
-          </DataTable.Row>
-          ))}
-        </DataTable>
-        <Text style={styles.subtitlestyledark}>Read more</Text>
-        <Text style={styles.bodystyledark} >{dataSource.long_content}</Text>
-        </ScrollView>
-      </View>
-    </FlipCard>
-      <Text style={styles.apptitle}>Summaries</Text>
-      <Text style={styles.subtitlestyle}>Just TL:DR</Text>
-
-
-      <View style={{height:250, flexDirection:'row', paddingLeft:10}}>
+    <ScrollView refreshControl={<RefreshControl refreshing={loading} onRefresh={onRefresh} />}>
+      <View style={{height:40}}></View>
+      <Header />
+      <Homepage />
+        <Text style={styles.apptitle}>Summaries</Text>
+        <Text style={styles.subtitlestyle}>Just TL:DR</Text>
+        <View style={{height:400, flexDirection:'row', paddingLeft:10}}>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        {
-            //render all articles
-            dataSource.map(CardView)
-          }
-
-          
+          <Summaries />
         </ScrollView>
       </View>
       <Text style={styles.apptitle}>Latest</Text>
       <Text style={styles.subtitlestyle}>Most recent</Text>
-          {
-            //render all articles
-            dataSource.map(ItemView)
-          }
-        </ScrollView>
+      <Latest/>
+      <View style={{height:40, alignItems:'center'}}>
+        <Text>tldrnewspaper.com © 2023</Text>
       </View>
+    </ScrollView>
     </View>
   );
 };
@@ -310,12 +162,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#D3D3D3',
     paddingLeft: 10,
-  },
-  itemSeparatorStyle: {
-    height: 0.5,
-    width: '100%',
-    backgroundColor: '#C8C8C8',
-    marginBottom: 20,
   },
   articleimage: {
     resizeMode: 'cover',
