@@ -9,75 +9,33 @@ const App = () => {
   const [dataRecent, setDataRecent] = useState([]);
   const [frontpageSource, setfrontpageSource] = useState([]);
   const [weatherSource, setWeatherSource] = useState([]);
-  const [expanded, setExpanded] = React.useState(true);
   const [loading, setLoading] = useState(true)
 
-
   useEffect(() => {
-    setLoading(true);
     fetch('https://tldrnewspaper.com/article/mobileapi/sources')
       .then((response) => response.json())
       .then((responseJson) => {
+        console.log('Data arrived');
         setDataSource(responseJson);
         setLoading(false);
       })
       .catch((error) => {
         console.error(error);
       });
-    fetch('https://tldrnewspaper.com/article/mobileapi/recent')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        setDataRecent(responseJson);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    fetch('https://tldrnewspaper.com/article/mobileapi/random')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        setfrontpageSource(responseJson);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    fetch('https://samples.openweathermap.org/data/2.5/weather?q=London&appid=b1b15e88fa797225412429c1c50c122a1')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        setWeatherSource(responseJson);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
   }, []);
 
-   const onRefresh = React.useCallback(async () => {
+  const onRefresh = React.useCallback(async () => {
     setLoading(true);
     fetch('https://tldrnewspaper.com/article/mobileapi/sources')
       .then((response) => response.json())
       .then((responseJson) => {
+        console.log('Refresh arrived');
         setDataSource(responseJson);
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
       });
-    fetch('https://tldrnewspaper.com/article/mobileapi/recent')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        setDataRecent(responseJson);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    fetch('https://tldrnewspaper.com/article/mobileapi/random')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        setfrontpageSource(responseJson);
-    
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-      setLoading(false);
   }, [loading]);
 
 
@@ -122,7 +80,7 @@ const App = () => {
               </DataTable.Row>
               ))}
               </DataTable>
-            <Text style={styles.subtitlestyledark}>Full article comparison</Text>
+            <Text style={styles.subtitlestyledark}>Read more</Text>
             <Text style={styles.bodystyledark} >{item.long_content}</Text>
             </ScrollView>
           </View>
@@ -189,14 +147,12 @@ const App = () => {
         <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
         <Image
             style={{width: 50, height: 50}}
-            source={{
-              uri: 'https://openweathermap.org/img/wn/'+String(weatherSource.weather[0].icon)+'@2x.png',
-            }}
+            source={{uri: 'https://openweathermap.org/img/wn/02d@2x.png'}}
           />
-          <Text style={{fontWeight:'bold', fontSize:24}}>{Math.round(weatherSource.main.temp/10)} C°</Text>
+          <Text style={{fontWeight:'bold', fontSize:24}}>18 C°</Text>
         </View>
-          <Text>{weatherSource.weather[0].description}</Text>
-          <Text>Windspeed: {weatherSource.wind.speed}</Text>
+          <Text>Partly overcast</Text>
+          <Text>Windspeed: 3 Bft</Text>
         </View>
       </View>
       <Text style={styles.apptitle}>Front page</Text>
@@ -205,41 +161,39 @@ const App = () => {
       <FlipCard>
       {/* Face Side */}
       <View>
-      <ImageBackground style={styles.frontpagecard}resizeMode="cover" imageStyle={{ borderRadius: 6}} source={{ uri: `${frontpageSource[0].imageurl}` }}>
-        <Text style={styles.headlinecardtext}>{frontpageSource[0].title}</Text>
+      <ImageBackground style={styles.frontpagecard}resizeMode="cover" imageStyle={{ borderRadius: 6}} source={{ uri: `${dataSource[0].imageurl}` }}>
+        <Text style={styles.headlinecardtext}>{dataSource[0].title}</Text>
         <ItemSeparatorView />
       </ImageBackground>
       </View >
       {/* Back Side */}
       <View style={{flex:1, width:"100%", backgroundColor:"#111827", borderRadius:20}}>
         <ScrollView>
-        <Text style={styles.apptitledark}>{frontpageSource[0].title}</Text>
+        <Text style={styles.apptitledark}>{dataSource[0].title}</Text>
         <Text style={styles.datestyle} >
-          {frontpageSource[0].pubdate}
+          {dataSource[0].pubdate}
         </Text>
         <Text style={styles.subtitlestyledark}>Summary</Text>
-        <Text style={styles.bodystyledark}>{frontpageSource[0].summary}</Text>
-        <Image style={styles.frontpagecard}resizeMode="cover" imageStyle={{ borderRadius: 6}} source={{ uri: `${frontpageSource[0].imageurl}` }}></Image>
+        <Text style={styles.bodystyledark}>{dataSource[0].summary}</Text>
+        <Image style={styles.frontpagecard}resizeMode="cover" imageStyle={{ borderRadius: 6}} source={{ uri: `${dataSource[0].imageurl}` }}></Image>
         <Text style={styles.subtitlestyledark}>Source comparison</Text>
-        <Text style={styles.bodystyledark} >{frontpageSource[0].comparison}</Text>
+        <Text style={styles.bodystyledark} >{dataSource[0].comparison}</Text>
         <DataTable textStyle={{color:'white'}}>
             <DataTable.Header>
               <DataTable.Title textStyle={{color:'white'}}>Source</DataTable.Title>
               <DataTable.Title textStyle={{color:'white'}}>Title</DataTable.Title>
             </DataTable.Header>
-
-          {frontpageSource[0].sources.map((item, key) => (
+            {dataSource[0].sources.map((item, key) => (
             // key is the index of the array
             // item is the single item of the array
-
             <DataTable.Row key={key} onPress={ ()=>{ Linking.openURL(`${item.url}`)}}>
-            <DataTable.Cell textStyle={{color:'white'}}>{item.sourcename}</DataTable.Cell>
-            <DataTable.Cell textStyle={{color:'white'}}>{item.title}</DataTable.Cell>
+              <DataTable.Cell textStyle={{color:'white'}}>{item.sourcename}</DataTable.Cell>
+              <DataTable.Cell textStyle={{color:'white'}}>{item.title}</DataTable.Cell>
           </DataTable.Row>
           ))}
-          </DataTable>
-        <Text style={styles.subtitlestyledark}>Full article comparison</Text>
-        <Text style={styles.bodystyledark} >{frontpageSource[0].long_content}</Text>
+        </DataTable>
+        <Text style={styles.subtitlestyledark}>Read more</Text>
+        <Text style={styles.bodystyledark} >{dataSource.long_content}</Text>
         </ScrollView>
       </View>
     </FlipCard>
@@ -261,7 +215,7 @@ const App = () => {
       <Text style={styles.subtitlestyle}>Most recent</Text>
           {
             //render all articles
-            dataRecent.map(ItemView)
+            dataSource.map(ItemView)
           }
         </ScrollView>
       </View>
