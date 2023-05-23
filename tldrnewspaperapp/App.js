@@ -1,10 +1,8 @@
 // import React in our code
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, Text,RefreshControl, ActivityIndicator,  Image, StyleSheet, View, Linking, ScrollView, ImageBackground } from 'react-native';
-import { List, DataTable } from 'react-native-paper';
+import { DataTable } from 'react-native-paper';
 import FlipCard from 'react-native-flip-card'
-import { color } from 'react-native-elements/dist/helpers';
-
 
 const App = () => {
   const [dataSource, setDataSource] = useState([]);
@@ -12,20 +10,21 @@ const App = () => {
   const [frontpageSource, setfrontpageSource] = useState([]);
   const [weatherSource, setWeatherSource] = useState([]);
   const [expanded, setExpanded] = React.useState(true);
-  const handlePress = () => setExpanded(!expanded);
   const [loading, setLoading] = useState(true)
 
 
   useEffect(() => {
+    setLoading(true);
     fetch('https://tldrnewspaper.com/article/mobileapi/sources')
       .then((response) => response.json())
       .then((responseJson) => {
         setDataSource(responseJson);
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
       });
-      fetch('https://tldrnewspaper.com/article/mobileapi/recent')
+    fetch('https://tldrnewspaper.com/article/mobileapi/recent')
       .then((response) => response.json())
       .then((responseJson) => {
         setDataRecent(responseJson);
@@ -33,7 +32,7 @@ const App = () => {
       .catch((error) => {
         console.error(error);
       });
-      fetch('https://tldrnewspaper.com/article/mobileapi/random')
+    fetch('https://tldrnewspaper.com/article/mobileapi/random')
       .then((response) => response.json())
       .then((responseJson) => {
         setfrontpageSource(responseJson);
@@ -41,15 +40,14 @@ const App = () => {
       .catch((error) => {
         console.error(error);
       });
-      fetch('https://samples.openweathermap.org/data/2.5/weather?q=London&appid=b1b15e88fa797225412429c1c50c122a1')
+    fetch('https://samples.openweathermap.org/data/2.5/weather?q=London&appid=b1b15e88fa797225412429c1c50c122a1')
       .then((response) => response.json())
       .then((responseJson) => {
         setWeatherSource(responseJson);
-        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
-      });
+      })
   }, []);
 
    const onRefresh = React.useCallback(async () => {
@@ -62,7 +60,7 @@ const App = () => {
       .catch((error) => {
         console.error(error);
       });
-      fetch('https://tldrnewspaper.com/article/mobileapi/recent')
+    fetch('https://tldrnewspaper.com/article/mobileapi/recent')
       .then((response) => response.json())
       .then((responseJson) => {
         setDataRecent(responseJson);
@@ -70,15 +68,16 @@ const App = () => {
       .catch((error) => {
         console.error(error);
       });
-      fetch('http://localhost:8000/article/mobileapi/random')
+    fetch('https://tldrnewspaper.com/article/mobileapi/random')
       .then((response) => response.json())
       .then((responseJson) => {
         setfrontpageSource(responseJson);
-        setLoading(false);
+    
       })
       .catch((error) => {
         console.error(error);
       });
+      setLoading(false);
   }, [loading]);
 
 
@@ -113,7 +112,7 @@ const App = () => {
                   <DataTable.Title textStyle={{color:'white'}}>Title</DataTable.Title>
                 </DataTable.Header>
 
-              {item.sources.map((item, key) => (
+                {item.sources.map((item, key) => (
                 // key is the index of the array
                 // item is the single item of the array
 
