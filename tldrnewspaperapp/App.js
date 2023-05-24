@@ -5,6 +5,9 @@ import Header from './components/header';
 import Homepage from './components/homepage';
 import Latest from './components/latest';
 import Summaries from './components/summaries';
+import { initialize } from 'react-native-clarity';
+
+initialize("h5hnuet1ui");
 
 const App = () => {
   const [loading, setLoading] = useState(true)
