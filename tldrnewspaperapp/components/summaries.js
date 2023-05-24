@@ -14,7 +14,7 @@ const Summaries = () => {
         fetch('https://tldrnewspaper.com/article/mobileapi/sources')
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log('Latest news arrived');
+                console.log('Summary news arrived');
                 setDataSource(responseJson);
                 setLoading(false);
             })
