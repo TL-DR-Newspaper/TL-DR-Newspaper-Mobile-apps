@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {Text, ActivityIndicator,  Image, View, ImageBackground } from 'react-native';
+import {Text, ActivityIndicator,  Image, View, Linking, ImageBackground, TouchableOpacity } from 'react-native';
 import FlipCard from 'react-native-flip-card'
 
 const Header = () => {
     const [loading, setLoading] = useState(true)
     const [weatherSource, setWeatherSource] = useState([]);
+
+    const handleOpenWithLinking = () =>{
+        Linking.openURL("https://www.buymeacoffee.com/petervd")};
 
     useEffect(() => {
         fetch('https://samples.openweathermap.org/data/2.5/weather?q=London&appid=b1b15e88fa797225412429c1c50c122a1')
@@ -36,18 +39,20 @@ const Header = () => {
     </View>
 </View>
     ) : (
-        
-    
-    
     <View style={{height:100, flexDirection:'row', paddingHorizontal:10}}>
-    <FlipCard style={{flex:1}}>
+    <FlipCard style={{flex:1}} clickable={true}>
         {/* Face Side */}
         <ImageBackground style={{flex:1, margin:4 }}resizeMode="cover" imageStyle={{ borderRadius: 10}} source={require('../assets/logo.png')}>
         </ImageBackground>
-        {/* Back Side */}
-        <View style={{flex:1, margin:4, backgroundColor:'#1A56DB',  borderRadius: 10, textAlignVertical:"center" }}>
-            <Text style={{alignSelf:'center', padding:15, justifyContent:'center', color:'white', textAlignVertical:'center'}}>❤️ Thanks for trying out tl:dr newspaper</Text>
+       {/* Back Side */}
+    <View style={{flex:3, borderColor: 'lightgrey', borderWidth: 1, backgroundColor: '#1A56DB', margin:4, borderRadius:10, alignItems:'center', justifyContent:'center'}}>
+        <TouchableOpacity onPress={() => handleOpenWithLinking()}>
+        <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
+            <Text style={{fontWeight:'bold', fontSize:36, color:"white"}}>☕️</Text>
+            <Text style={{fontWeight:'bold', color:"white", padding:4}}>Buy us a coffee</Text>
         </View>
+        </TouchableOpacity>
+    </View>
     </FlipCard>
     <FlipCard 
         style={{flex:2}}

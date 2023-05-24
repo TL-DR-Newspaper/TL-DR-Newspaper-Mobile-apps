@@ -66,7 +66,7 @@ const Homepage = () => {
         ))}
     </DataTable>
     <Text style={styles.subtitlestyledark}>Read more</Text>
-    <Text style={styles.bodystyledark} >{dataSource.long_content}</Text>
+    <Text style={styles.bodystyledark} >{dataSource[0].long_content}</Text>
     </ScrollView>
     </View>
     </FlipCard>
