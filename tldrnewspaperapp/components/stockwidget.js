@@ -17,13 +17,13 @@ const Stockwidget = () => {
             console.error(error);
             });
         }, []);
-  return loading ? (<View style={{flex:3, borderColor: 'lightgrey', borderWidth: 1, backgroundColor: 'white', margin:4, borderRadius:10, alignItems:'center', justifyContent:'center'}}>
+  return loading ? (<View style={{flex:3, borderColor: 'lightgrey', borderWidth: 0, backgroundColor: 'white', margin:4, borderRadius:10, alignItems:'center', justifyContent:'center'}}>
                             <ActivityIndicator
                     style={{width: 50, height: 50}}
                     size="large"
                 />
                   </View>
-    ) : (<View style={{flex:3, borderColor: 'lightgrey', borderWidth: 1, backgroundColor: 'white', margin:4, borderRadius:10, alignItems:'center', justifyContent:'center'}}>
+    ) : (<View style={{flex:3, borderColor: 'lightgrey', borderWidth: 0, backgroundColor: 'white', margin:4, borderRadius:10, alignItems:'center', justifyContent:'center'}}>
     <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
         <Text style={{fontWeight:'bold', fontSize:24}}>📈 {stockData.results[0].c}</Text>
     </View>

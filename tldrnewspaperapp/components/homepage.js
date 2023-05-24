@@ -77,7 +77,7 @@ const Homepage = () => {
 const styles = StyleSheet.create({
     frontpagecard: {
         width:'100%', 
-        height:250, 
+        height:350, 
         marginHorizontal:10, 
         paddingHorizontal:10,
         alignItems: "flex-end",

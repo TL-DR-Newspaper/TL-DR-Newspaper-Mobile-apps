@@ -33,7 +33,7 @@ const Weatherwidget = () => {
             <Text>Loading weather</Text>
         </View>
     </View>
-    ) : (<View style={{flex:3 , borderColor: 'lightgrey', borderWidth: 1, backgroundColor: 'white', margin:4, borderRadius:10, alignItems:'center', justifyContent:'center'}}>
+    ) : (<View style={{flex:3 , borderColor: 'lightgrey', borderWidth: 0, backgroundColor: 'white', margin:4, borderRadius:10, alignItems:'center', justifyContent:'center'}}>
     <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
         <Image
             style={{width: 50, height: 50}}

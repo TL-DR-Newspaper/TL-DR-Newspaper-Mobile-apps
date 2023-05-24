@@ -13,7 +13,7 @@ const Header = () => {
     return <View style={{height:100, flexDirection:'row', paddingHorizontal:10}}>
     <FlipCard style={{flex:1}} clickable={true}>
         {/* Face Side */}
-        <ImageBackground style={{flex:1, margin:4 }}resizeMode="cover" imageStyle={{ borderRadius: 10}} source={require('../assets/logo.png')}>
+        <ImageBackground style={{flex:1, margin:4 }}resizeMode="contain" imageStyle={{ borderRadius: 10}} source={require('../assets/logo.png')}>
         </ImageBackground>
        {/* Back Side */}
     <View style={{flex:3, borderColor: 'lightgrey', borderWidth: 1, backgroundColor: '#1A56DB', margin:4, borderRadius:10, alignItems:'center', justifyContent:'center'}}>
